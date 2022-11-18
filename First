@@ -1,0 +1,165 @@
+// See https://aka.ms/new-console-template for more information
+List<string> Kategorien = new List<string>();
+int x = 0;
+int y = 0;
+int z = 0;
+int u = 0;
+while (x<10)
+{
+    Kategorien.Add("Bananen");
+    x++;    
+}
+while (y < 10)
+{
+    Kategorien.Add("Paprika");
+    y++;
+}
+while (z < 10)
+{
+    Kategorien.Add("Karoten");
+    z++;
+}
+while (u < 8)
+{
+    Kategorien.Add("Zuccini");
+    u++;
+}
+while (true)
+{
+    Console.WriteLine("Which page?");
+    List<string> strings = listsplitter(Kategorien, Convert.ToInt32(Console.ReadLine()));
+    kundeinterface(strings);
+}
+static List<string> listsplitter(List<string> j, int index)
+{
+    int a = j.Count;
+    int seiten = 1;
+    while(a>10)
+    {
+        a = a-10;
+        seiten++;
+    }
+    int l = seiten - index;
+    int i = (j.Count - a) - l * 10;
+    Console.WriteLine(i);
+    List<string> list = new List<string>();
+    if (index < seiten)
+    {
+        if (index >= 1)
+        {
+            for (int x = i; x<i+10; x++)
+            {
+                list.Add(j[x]);
+            }
+        }
+    }
+    else if (index == seiten)
+    {
+        for (int x = i; x < i + a; x++)
+        {
+            list.Add(j[x]);
+        }
+    }
+    return list;
+}
+static string kundeinterface(List<string> s)
+{
+
+    Console.WriteLine(@" ____    _    _  __    _    _
+| __ )  / \  | |/ /   / \  | |
+|  _ \ / _ \ | ' /   / _ \ | |
+| |_) / ___ \| . \  / ___ \|_|
+|____/_/   \_\_|\_\/_/   \_(_)
+                              ");
+    Console.WriteLine("Willkommen bei unserem online shop!, Enter Druecken um zur Selektion zu gelangen!");
+    string Kategorie = "";
+    var command = Console.ReadKey().Key;
+    if (command == ConsoleKey.Enter)
+    {
+        int a = s.Count;
+        int seiten = 1;
+        while (a > 10)
+        {
+            a = a - 10;
+            seiten++;
+        }
+        int indexh = 1;
+        bool selection = false;
+        int indexv = 0;
+        while (selection == false)
+        {
+            draw(indexv, s);
+            var Key = Console.ReadKey().Key;
+            switch (Key)
+            {
+                case ConsoleKey.DownArrow:
+                    if (indexv == s.Count - 1)
+                    {
+                        indexv = 0;
+                    }
+                    else
+                    {
+                        indexv++;
+                    }
+                    break;
+                case ConsoleKey.UpArrow:
+                    if (indexv == 0)
+                    {
+                        indexv = s.Count - 1;
+                    }
+                    else
+                    {
+                        indexv--;
+                    }
+                    break;
+                case ConsoleKey.Enter:
+                    Console.Clear();
+                    Console.WriteLine(@" ____    _    _  __    _    _
+| __ )  / \  | |/ /   / \  | |
+|  _ \ / _ \ | ' /   / _ \ | |
+| |_) / ___ \| . \  / ___ \|_|
+|____/_/   \_\_|\_\/_/   \_(_)
+                              ");
+                    Console.WriteLine("Sie haben die Kategorie [" + s[indexv] + "] ausgewählt, Bestätigen Sie mit (b), Um wieder in die Selektion zurückzukehren (r)");
+                    string p = Console.ReadLine();
+                    if (p == "b")
+                    {
+                        selection = true;
+                    }
+                    else if (p == "r")
+                    {
+                        selection = false;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        Kategorie = s[indexv];
+    }
+    void draw(int index, List<string> strings)
+    {
+        Console.Clear();
+        Console.WriteLine(@" ____    _    _  __    _    _
+| __ )  / \  | |/ /   / \  | |
+|  _ \ / _ \ | ' /   / _ \ | |
+| |_) / ___ \| . \  / ___ \|_|
+|____/_/   \_\_|\_\/_/   \_(_)
+                              ");
+        for (int i = 0; i < s.Count; i++)
+        {
+            if (i == index)
+            {
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.Black;
+            }
+            int x = i + 1;
+            Console.WriteLine(@"+---------+-------+---------------+
+│ " + s[i] + " │       │ Preis: " + "2,99 € " + "│");                             
+Console.WriteLine("+---------+-------+---------------+");
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+    }
+    return Kategorie;
+}
